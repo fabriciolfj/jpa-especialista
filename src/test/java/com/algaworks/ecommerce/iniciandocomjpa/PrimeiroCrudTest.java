@@ -3,6 +3,7 @@ package com.algaworks.ecommerce.iniciandocomjpa;
 import com.algaworks.ecommerce.EntityManagerTest;
 import com.algaworks.ecommerce.model.Cliente;
 import com.algaworks.ecommerce.model.Produto;
+import com.mysql.cj.xdevapi.Client;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,10 +28,10 @@ public class PrimeiroCrudTest extends EntityManagerTest {
 
     @Test
     public void busarPorIdentificador() {
-        Produto produto = entityManager.find(Produto.class, 1);
+        Cliente cliente = entityManager.find(Cliente.class, 2);
 
-        Assert.assertNotNull(produto);
-        Assert.assertEquals("Kindle", produto.getNome());
+        Assert.assertNotNull(cliente);
+        Assert.assertEquals("Marcos Mariano", cliente.getNome());
     }
 
     @Test

@@ -17,10 +17,15 @@ public class Pedido {
 
     @EqualsAndHashCode.Include
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "data_pedido")
     private LocalDateTime dataPedido;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
     @Column(name = "data_conclusao")
     private LocalDateTime dataConclusao;
