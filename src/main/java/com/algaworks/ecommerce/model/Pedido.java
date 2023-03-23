@@ -1,5 +1,6 @@
 package com.algaworks.ecommerce.model;
 
+import com.algaworks.ecommerce.listener.GenericListener;
 import com.algaworks.ecommerce.listener.GerarNotaFiscal;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@EntityListeners({ GerarNotaFiscal.class})
+@EntityListeners({ GerarNotaFiscal.class, GenericListener.class})
 @Table(name = "pedido")
 public class Pedido {
 
