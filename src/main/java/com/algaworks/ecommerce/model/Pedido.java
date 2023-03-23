@@ -1,5 +1,6 @@
 package com.algaworks.ecommerce.model;
 
+import com.algaworks.ecommerce.listener.GerarNotaFiscal;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@EntityListeners({ GerarNotaFiscal.class})
 @Table(name = "pedido")
 public class Pedido {
 
@@ -21,8 +23,11 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "data_pedido")
-    private LocalDateTime dataPedido;
+    @Column(name = "data_criacao")
+    private LocalDateTime dataCriacao;
+
+    @Column(name = "data_ultima_atualizacao")
+    private LocalDateTime dataUltimaAtualizacao;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "cliente_id")
@@ -47,4 +52,26 @@ public class Pedido {
 
     @OneToOne(mappedBy = "pedido")
     private PagamentoCartao pagamento;
+
+    public boolean isPago() {
+        return this.status == StatusPedido.PAGO;
+    }
+
+    public void calcularTotal() {
+        if (itemPedidos != null) {
+            this.total = itemPedidos.stream().map(ItemPedido::getPrecoProduto)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+                    //.reduce(BigDecimal.ZERO, (x, y) -> x.add(y));
+        }
+    }
+
+    @PrePersist
+    public void aoPersistir() {
+        dataCriacao = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void aoAtualizar() {
+        dataUltimaAtualizacao = LocalDateTime.now();
+    }
 }
