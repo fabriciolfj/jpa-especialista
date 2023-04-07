@@ -11,4 +11,4 @@
 - podemos combinar com EmbeddedId, para chave composta
 
 ## ElementCollection
-- quando vamos salvar uma lista apenas de um tipo não personalizado, como string apenas por exemplo.
+- quando vamos salvar uma lista apenas
