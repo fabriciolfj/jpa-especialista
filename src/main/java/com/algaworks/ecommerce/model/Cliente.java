@@ -28,4 +28,19 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos;
+
+    @Transient
+    private String primeiroNome;
+
+    @PostLoad
+    public void configurarPrimeiroNome() {
+        if (nome != null && !nome.isBlank()) {
+
+            var index = nome.indexOf(" ");
+
+            if (index >= 0) {
+                this.primeiroNome = nome.substring(0, index);
+            }
+        }
+    }
 }

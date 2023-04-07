@@ -6,8 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Arrays;
 
 public class MapeamentoObjetoEmbutidoTest extends EntityManagerTest {
 

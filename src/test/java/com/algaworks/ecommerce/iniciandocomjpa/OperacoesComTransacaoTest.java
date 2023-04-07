@@ -28,7 +28,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
     public void mostrarDifencaPersistMerge() {
         Produto produtoPersist = new Produto();
 
-        produtoPersist.setId(5);
+        //produtoPersist.setId(5);
         produtoPersist.setNome("Smartphone One Plus");
         produtoPersist.setDescricao("O processador mais rápido.");
         produtoPersist.setPreco(new BigDecimal(2000));
@@ -134,7 +134,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
     public void inserirOPrimeiroObjeto() {
         Produto produto = new Produto();
 
-        produto.setId(2);
+        //produto.setId(2);
         produto.setNome("Câmera Canon");
         produto.setDescricao("A melhor definição para suas fotos.");
         produto.setPreco(new BigDecimal(5000));
