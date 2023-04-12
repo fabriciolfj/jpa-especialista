@@ -3,12 +3,16 @@ package com.algaworks.ecommerce.mapeamentoavancao;
 import com.algaworks.ecommerce.EntityManagerTest;
 import com.algaworks.ecommerce.model.Atributo;
 import com.algaworks.ecommerce.model.Categoria;
+import com.algaworks.ecommerce.model.Cliente;
 import com.algaworks.ecommerce.model.Produto;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class ElementCollectionTest extends EntityManagerTest {
@@ -51,5 +55,22 @@ public class ElementCollectionTest extends EntityManagerTest {
 
         final Produto newProduto = entityManager.find(Produto.class, produto.getId());
         assertTrue(newProduto.getAtributos().size() == 2);
+    }
+
+    @Test
+    public void testElementCollectionMap() {
+        final Cliente cliente = entityManager.find(Cliente.class, 1);
+
+        entityManager.getTransaction().begin();
+
+        cliente.setContatos(Collections.singletonMap("email", "fernando@gmail.com"));
+
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        final Cliente clienteContrato = entityManager.find(Cliente.class, 1);
+
+        assertTrue(clienteContrato.getContatos().size() > 0);
     }
 }

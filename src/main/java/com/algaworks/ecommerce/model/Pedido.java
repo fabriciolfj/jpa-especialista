@@ -52,7 +52,7 @@ public class Pedido {
     private List<ItemPedido> itemPedidos;
 
     @OneToOne(mappedBy = "pedido")
-    private PagamentoCartao pagamento;
+    private Pagamento pagamento;
 
     public boolean isPago() {
         return this.status == StatusPedido.PAGO;

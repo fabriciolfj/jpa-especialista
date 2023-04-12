@@ -4,8 +4,14 @@ insert into produto (id, nome, preco, descricao, data_criacao) values (3, 'Câme
 insert into cliente (id, nome) values (1, 'Fernando Medeiros');
 insert into cliente (id, nome) values (2, 'Marcos Mariano');
 
-insert into pedido (id, cliente_id, total, status) values (1, 1, 100.0, 'AGUARDANDO');
+insert into pedido (id, cliente_id, total, status) values (1, 1, 10.0, 'AGUARDANDO');
 
-insert into item_pedido ( pedido_id, produto_id, preco_produto, quantidade) values ( 1, 1, 5.0, 2);
+insert into item_pedido (pedido_id, produto_id, preco_produto, quantidade) values (1, 1, 5.0, 2);
 
 insert into categoria(id, nome) values (1, 'eletronicos')
+
+insert into pedido (id, cliente_id, total, status) values (2, 1, 499.0, 'AGUARDANDO');
+
+insert into item_pedido (pedido_id, produto_id, preco_produto, quantidade) values (2, 1, 499.0, 1);
+
+insert into pagamento(pedido_id, status, numero_cartao, tipo_pagamento) values (2, 'PROCESSANDO', '123', 'cartao')

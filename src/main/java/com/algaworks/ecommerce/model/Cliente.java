@@ -6,31 +6,37 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "cliente")
 @EntityListeners({ GenericListener.class })
-public class Cliente {
-
-    @EqualsAndHashCode.Include
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+@SecondaryTable(name = "cliente_detalhes", pkJoinColumns = @PrimaryKeyJoinColumn(name = "cliente_id"))
+public class Cliente extends EntidadeBaseInteger {
 
     private String nome;
-
-    @Enumerated(EnumType.STRING)
-    private SexoCliente sexo;
 
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos;
 
     @Transient
     private String primeiroNome;
+
+    @ElementCollection
+    @CollectionTable(joinColumns = @JoinColumn(name = "cliente_id"))
+    @MapKeyColumn(name = "tipo")
+    @Column(name = "descricao")
+    private Map<String, String> contatos;
+
+    @Column(table = "cliente_detalhes")
+    @Enumerated(EnumType.STRING)
+    private SexoCliente sexo;
+    @Column(table = "cliente_detalhes", name = "data_aniversario")
+    private LocalDate dataAniversario;
 
     @PostLoad
     public void configurarPrimeiroNome() {
