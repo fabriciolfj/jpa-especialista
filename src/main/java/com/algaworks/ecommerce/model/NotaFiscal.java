@@ -22,12 +22,13 @@ public class NotaFiscal {
 
     @MapsId
     @OneToOne(optional = false)
-    @JoinColumn(name = "pedido_id")
+    @JoinColumn(name = "pedido_id", nullable = false, foreignKey = @ForeignKey(name = "fk_nf_pedido"))
     private Pedido pedido;
 
     @Lob
+    @Column(nullable = false)
     private byte[] xml;
 
-    @Column(name = "data_emissao")
+    @Column(name = "data_emissao", nullable = false)
     private Date dataEmissao;
 }

@@ -20,16 +20,17 @@ public class ItemPedido {
 
     @MapsId("pedidoId")
     @ManyToOne(optional = false)
-    @JoinColumn(name = "pedido_id", insertable = false, updatable = false)
+    @JoinColumn(name = "pedido_id", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_item_pedido"), nullable = false)
     private Pedido pedido;
 
     @MapsId("produtoId")
     @ManyToOne(optional = false)
-    @JoinColumn(name = "produto_id", insertable = false, updatable = false)
+    @JoinColumn(name = "produto_id", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_item_produto"), nullable = false)
     private Produto produto;
 
-    @Column(name = "preco_produto")
+    @Column(name = "preco_produto", precision = 19, scale = 2, nullable = false)
     private BigDecimal precoProduto;
 
+    @Column(columnDefinition = "int(11) not null")
     private Integer quantidade;
 }

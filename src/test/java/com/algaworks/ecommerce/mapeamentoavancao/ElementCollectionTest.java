@@ -26,6 +26,7 @@ public class ElementCollectionTest extends EntityManagerTest {
         produto.setPreco(BigDecimal.TEN);
         produto.setDescricao("test");
         produto.setTags(List.of("test1", "test2"));
+        produto.setNome("teste");
 
         entityManager.getTransaction().begin();
         entityManager.persist(produto);
@@ -45,6 +46,7 @@ public class ElementCollectionTest extends EntityManagerTest {
         produto.setCategorias(List.of(categoria));
         produto.setPreco(BigDecimal.TEN);
         produto.setDescricao("test");
+        produto.setNome("test");
         produto.setAtributos(List.of(new Atributo("teste", "teste"), new Atributo("teste", "teste")));
 
         entityManager.getTransaction().begin();

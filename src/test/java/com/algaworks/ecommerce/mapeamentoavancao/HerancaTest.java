@@ -14,6 +14,7 @@ public class HerancaTest extends EntityManagerTest {
     public void testChaveMappedSuperClass() {
         final Cliente cliente = new Cliente();
         cliente.setNome("fabricio");
+        cliente.setSexo(SexoCliente.MASCULINO);
 
         entityManager.getTransaction().begin();
         entityManager.persist(cliente);
@@ -26,7 +27,7 @@ public class HerancaTest extends EntityManagerTest {
 
     @Test
     public void testBuscaPagamentos() {
-        final List<Pagamento> pagamentos = entityManager.createQuery("select e from Pagamento e")
+        final List pagamentos = entityManager.createQuery("select e from Pagamento e")
                 .getResultList();
 
         assertNotNull(pagamentos);
@@ -40,6 +41,7 @@ public class HerancaTest extends EntityManagerTest {
         final PagamentoCartao cartao = new PagamentoCartao();
         cartao.setNumero("123");
         cartao.setPedido(pedido);
+        cartao.setStatus(StatusPagamento.PROCESSANDO);
 
         entityManager.getTransaction().begin();
         entityManager.persist(cartao);

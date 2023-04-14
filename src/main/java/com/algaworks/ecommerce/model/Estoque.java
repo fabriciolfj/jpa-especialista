@@ -18,8 +18,9 @@ public class Estoque {
     private Integer id;
 
     @OneToOne(optional = false)
-    @JoinColumn(name = "produto_id")
+    @JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(name = "fk_estoque_produto"))
     private Produto produto;
 
+    @Column(columnDefinition = "int(11) not null")
     private Integer quantidade;
 }

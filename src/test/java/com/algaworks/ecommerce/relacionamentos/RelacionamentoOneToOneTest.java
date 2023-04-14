@@ -63,7 +63,7 @@ public class RelacionamentoOneToOneTest extends EntityManagerTest {
 
         try {
             OutputStream out = new FileOutputStream(
-                    Files.createFile(Paths.get(System.getProperty("user.home") + "/xml.xml")).toFile());
+                    Files.createFile(Paths.get(System.getProperty("user.home") + "/xml2.xml")).toFile());
             out.write(nf.getXml());
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());

@@ -5,6 +5,7 @@ import com.algaworks.ecommerce.listener.GerarNotaFiscal;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.java.Log;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,14 +16,12 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "produto")
+@Table(name = "produto",
+        indexes = { @Index(name = "idx_produto", columnList = "nome")},
+        uniqueConstraints = { @UniqueConstraint(name = "unq_produto", columnNames = { "nome "})}
+)
 @EntityListeners({ GenericListener.class})
-public class Produto {
-
-    @EqualsAndHashCode.Include
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Produto extends EntidadeBaseInteger {
 
     @Column(name = "data_criacao", updatable = false)
     private LocalDateTime dataCriacao;
@@ -30,24 +29,29 @@ public class Produto {
     @Column(name = "data_ultima_atualizacao", insertable = false)
     private LocalDateTime dataUltimaAtualizacao;
 
+    @Column(length = 100, nullable = false)
     private String nome;
 
+    @Lob
     private String descricao;
 
     private BigDecimal preco;
 
     @ManyToMany
     @JoinTable(name = "produto_categoria",
-            joinColumns = @JoinColumn(name = "produto_id"),
-            inverseJoinColumns = @JoinColumn(name = "categoria_id"))
+            joinColumns =
+                @JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(name = "fk_produto_categoria_produto")),
+            inverseJoinColumns =
+                @JoinColumn(name = "categoria_id", nullable = false, foreignKey = @ForeignKey(name = "fk_produto_categoria_categoria"))
+    )
     private List<Categoria> categorias;
 
     @OneToOne(mappedBy = "produto")
     private Estoque estoque;
 
     @ElementCollection
-    @CollectionTable(joinColumns = @JoinColumn(name = "produto_id"), name = "produto_tag")
-    @Column(name = "tag")
+    @CollectionTable(joinColumns = @JoinColumn(name = "produto_id", foreignKey = @ForeignKey(name = "fk_produto_tags")), name = "produto_tag")
+    @Column(name = "tag", length = 50, nullable = false)
     private List<String> tags;
 
     @ElementCollection

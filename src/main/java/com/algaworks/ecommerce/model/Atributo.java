@@ -15,7 +15,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 public class Atributo {
 
-    @Column(name = "nome")
+    @Column(name = "nome", length = 100, nullable = false)
     private String nome;
     @Column(name = "valor")
     private String valor;

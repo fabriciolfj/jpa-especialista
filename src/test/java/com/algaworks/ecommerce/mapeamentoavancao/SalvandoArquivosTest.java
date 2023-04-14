@@ -17,6 +17,7 @@ public class SalvandoArquivosTest extends EntityManagerTest {
         produto.setPreco(BigDecimal.TEN);
         produto.setDescricao("teste");
         produto.setFoto(getFoto());
+        produto.setNome("test");
 
         entityManager.getTransaction().begin();
         entityManager.persist(produto);

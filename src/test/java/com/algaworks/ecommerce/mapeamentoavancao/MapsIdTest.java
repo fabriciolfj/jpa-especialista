@@ -5,19 +5,20 @@ import com.algaworks.ecommerce.model.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 public class MapsIdTest extends EntityManagerTest {
 
     @Test
-    public void inserirPagamento() {
+    public void inserirPagamento() throws IOException {
         Pedido pedido = entityManager.find(Pedido.class, 1);
 
         NotaFiscal notaFiscal = new NotaFiscal();
         notaFiscal.setPedido(pedido);
         notaFiscal.setDataEmissao(new Date());
-        //notaFiscal.setXml("<xml/>");
+        notaFiscal.setXml(MapsIdTest.class.getResourceAsStream("/nota-fiscal.xml").readAllBytes());
 
         entityManager.getTransaction().begin();
         entityManager.persist(notaFiscal);

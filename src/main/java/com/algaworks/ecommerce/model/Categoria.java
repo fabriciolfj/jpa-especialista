@@ -11,7 +11,10 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "categoria")
+@Table(name = "categoria", uniqueConstraints = { @UniqueConstraint(name = "unq_categoria", columnNames = {"nome"})},
+        indexes = { @Index(name = "idx_categoria", columnList = "nome")}
+
+)
 public class Categoria {
 
     @EqualsAndHashCode.Include
@@ -19,12 +22,13 @@ public class Categoria {
     //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     //@SequenceGenerator(name = "seq", sequenceName = "sequencias_chave_primaria")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(length = 100, nullable = false)
     private Integer id;
 
     private String nome;
 
     @ManyToOne
-    @JoinColumn(name = "catetoria_id")
+    @JoinColumn(name = "catetoria_id", foreignKey = @ForeignKey(name = "fk_categoria_categoriapai"))
     private Categoria categoriaPai;
 
     @OneToMany(mappedBy = "categoriaPai")
