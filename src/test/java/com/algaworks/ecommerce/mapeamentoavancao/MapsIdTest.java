@@ -13,7 +13,7 @@ public class MapsIdTest extends EntityManagerTest {
 
     @Test
     public void inserirPagamento() throws IOException {
-        Pedido pedido = entityManager.find(Pedido.class, 1);
+        Pedido pedido = entityManager.find(Pedido.class, 7);
 
         NotaFiscal notaFiscal = new NotaFiscal();
         notaFiscal.setPedido(pedido);

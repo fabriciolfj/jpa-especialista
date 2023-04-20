@@ -17,8 +17,8 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "produto",
-        indexes = { @Index(name = "idx_produto", columnList = "nome")},
-        uniqueConstraints = { @UniqueConstraint(name = "unq_produto", columnNames = { "nome "})}
+        indexes = { @Index(name = "idx_produto", columnList = "nome")}//,
+        //uniqueConstraints = { @UniqueConstraint(name = "unq_produto", columnNames = { "nome "})}
 )
 @EntityListeners({ GenericListener.class})
 public class Produto extends EntidadeBaseInteger {
