@@ -19,7 +19,7 @@ public class ItemPedido {
     private ItemPedidoId itemPedidoId;
 
     @MapsId("pedidoId")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.MERGE) //nao precisa do cascate persist (merge precisa) pq o pedido faz parte da pk
     @JoinColumn(name = "pedido_id", insertable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_item_pedido"), nullable = false)
     private Pedido pedido;
 

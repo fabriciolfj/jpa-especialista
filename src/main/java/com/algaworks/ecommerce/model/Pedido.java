@@ -59,19 +59,26 @@ public class Pedido extends EntidadeBaseInteger {
 
     public void calcularTotal() {
         if (itemPedidos != null) {
-            this.total = itemPedidos.stream().map(ItemPedido::getPrecoProduto)
+            this.total = itemPedidos
+                    .stream()
+                    .map(item -> item.getPrecoProduto().multiply(new BigDecimal(item.getQuantidade())))
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
                     //.reduce(BigDecimal.ZERO, (x, y) -> x.add(y));
+            return;
         }
+
+        total = BigDecimal.ZERO;
     }
 
     @PrePersist
     public void aoPersistir() {
         dataCriacao = LocalDateTime.now();
+        calcularTotal();
     }
 
     @PreUpdate
     public void aoAtualizar() {
         dataUltimaAtualizacao = LocalDateTime.now();
+        calcularTotal();
     }
 }
