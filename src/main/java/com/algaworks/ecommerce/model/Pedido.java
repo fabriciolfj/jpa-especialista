@@ -47,7 +47,7 @@ public class Pedido extends EntidadeBaseInteger {
     @Embedded
     private EnderecoEntregaPedido enderecoEntrega;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.PERSIST, orphanRemoval = true) //para excluir um item da lista, precisa tb o cascate type persist
     private List<ItemPedido> itemPedidos;
 
     @OneToOne(mappedBy = "pedido")
