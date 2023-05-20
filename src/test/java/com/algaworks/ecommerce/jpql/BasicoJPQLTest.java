@@ -1,6 +1,7 @@
 package com.algaworks.ecommerce.jpql;
 
 import com.algaworks.ecommerce.EntityManagerTest;
+import com.algaworks.ecommerce.dto.ProjecaoProduto;
 import com.algaworks.ecommerce.model.Cliente;
 import com.algaworks.ecommerce.model.Pedido;
 import com.algaworks.ecommerce.model.Produto;
@@ -10,6 +11,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -55,5 +57,17 @@ public class BasicoJPQLTest extends EntityManagerTest {
         assertNotNull(cliente);
         assertTrue(Cliente.class.equals(cliente.getClass()));
 
+    }
+
+    @Test
+    public void projetarResultado() {
+        final var jpql = "select p.id, p.nome from Produto p";
+        TypedQuery<Object[]> typed = entityManager.createQuery(jpql, Object[].class);
+
+        var result = typed.getResultList();
+
+        assertTrue(result.size() == 2);
+
+        result.forEach(arr -> System.out.println(arr[0] + " - " + arr[1]));
     }
 }
