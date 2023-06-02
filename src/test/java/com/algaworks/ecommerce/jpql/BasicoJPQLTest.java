@@ -5,11 +5,13 @@ import com.algaworks.ecommerce.dto.ProjecaoProduto;
 import com.algaworks.ecommerce.model.Cliente;
 import com.algaworks.ecommerce.model.Pedido;
 import com.algaworks.ecommerce.model.Produto;
+import org.junit.Assert;
 import org.junit.Test;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +19,16 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class BasicoJPQLTest extends EntityManagerTest {
+
+    @Test
+    public void projetarNoDTO() {
+        String jpql = "select new com.algaworks.ecommerce.dto.ProjecaoProduto(id, nome) from Produto";
+        TypedQuery<ProjecaoProduto> query = entityManager.createQuery(jpql, ProjecaoProduto.class);
+        var result = query.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+
+    }
 
     @Test
     public void buscaPorIdentificador() {
