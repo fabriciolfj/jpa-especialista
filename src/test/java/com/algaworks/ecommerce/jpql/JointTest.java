@@ -10,6 +10,17 @@ import javax.persistence.TypedQuery;
 public class JointTest extends EntityManagerTest {
 
     @Test
+    public void fazerLeftJoin() {
+        final String jpql = "select p from Pedido p left join p.pagamento pag";
+        TypedQuery<Pedido> query = this.entityManager.createQuery(jpql, Pedido.class);
+
+        var result = query.getResultList();
+
+        Assert.assertTrue(result.size() == 2);
+    }
+
+
+    @Test
     public void fazerJoin() {
         final String jpql = "select p From Pedido p join p.pagamento pag on pag.pedido = p";
 
