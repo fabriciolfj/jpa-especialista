@@ -9,6 +9,20 @@ import javax.persistence.TypedQuery;
 
 public class JointTest extends EntityManagerTest {
 
+    //para resolver o problema de n + 1, ou seja, para cada registro ele nao vai mas buscar no banco, vai trazer tudo na mesmo consulta graças ao join fetch
+    @Test
+    public void userJoinFetch() {
+        final String jpql = "select p from Pedido p"
+                + " left join fetch p.pagamento"
+                + " join fetch p.cliente"
+                + " left join fetch p.notafiscal";
+
+        TypedQuery<Pedido> query = entityManager.createQuery(jpql, Pedido.class);
+        final var pedidos = query.getResultList();
+
+        Assert.assertEquals(2, pedidos.size());
+    }
+
     @Test
     public void fazerLeftJoin() {
         final String jpql = "select p from Pedido p left join p.pagamento pag";
