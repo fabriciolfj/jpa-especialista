@@ -2,10 +2,12 @@ package com.algaworks.ecommerce.jpql;
 
 import com.algaworks.ecommerce.EntityManagerTest;
 import com.algaworks.ecommerce.model.Cliente;
+import com.algaworks.ecommerce.model.Produto;
 import org.junit.Test;
 
 import javax.persistence.TypedQuery;
 
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
@@ -18,5 +20,25 @@ public class ExpressoesCondicionaisTest extends EntityManagerTest {
         query.setParameter("nome", "Medeiros");
 
         assertTrue(query.getResultList().size() > 0);
+    }
+
+    @Test
+    public void userIsNull() {
+        var jpql = "select p from Produto p where p.foto is null";
+        TypedQuery<Produto> query = this.entityManager.createQuery(jpql, Produto.class);
+
+        var result = query.getResultList();
+
+        assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void usarIsEmpty() {
+        var jpql = "select p from Produto p where p.categorias is empty";
+        TypedQuery<Produto> query = this.entityManager.createQuery(jpql, Produto.class);
+
+        var result = query.getResultList();
+
+        assertTrue(result.size() == 1);
     }
 }
