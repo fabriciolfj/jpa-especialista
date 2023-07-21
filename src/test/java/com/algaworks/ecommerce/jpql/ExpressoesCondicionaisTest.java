@@ -7,10 +7,24 @@ import org.junit.Test;
 
 import javax.persistence.TypedQuery;
 
+import java.math.BigDecimal;
+
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
+
+    @Test
+    public void usarMaiorMenor() {
+        String jpql = "Select p from Produto p where p.preco >= :precoInicial and p.preco <= :precoFinal";
+        var query = this.entityManager.createQuery(jpql, Produto.class);
+        query.setParameter("precoInicial", new BigDecimal(499));
+        query.setParameter("precoFinal", new BigDecimal(1500));
+
+        var result = query.getResultList();
+
+        assertFalse(result.isEmpty());
+    }
 
     @Test
     public void usarExpressaoCondicionalLike() {
