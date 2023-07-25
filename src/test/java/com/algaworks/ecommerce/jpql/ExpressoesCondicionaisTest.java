@@ -2,17 +2,32 @@ package com.algaworks.ecommerce.jpql;
 
 import com.algaworks.ecommerce.EntityManagerTest;
 import com.algaworks.ecommerce.model.Cliente;
+import com.algaworks.ecommerce.model.Pedido;
 import com.algaworks.ecommerce.model.Produto;
 import org.junit.Test;
 
 import javax.persistence.TypedQuery;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
+
+    @Test
+    public void usarMaiorMenorData() {
+        final String jpql = "Select p from Pedido p where p.dataCriacao >= :data";
+        final TypedQuery<Pedido> query = this.entityManager.createQuery(jpql, Pedido.class);
+        query.setParameter("data", LocalDateTime.now().minus(2, ChronoUnit.DAYS));
+
+        var result = query.getResultList();
+
+        assertTrue(result.size() == 1);
+    }
 
     @Test
     public void usarMaiorMenor() {
