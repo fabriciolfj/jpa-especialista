@@ -9,7 +9,6 @@ import org.junit.Test;
 import javax.persistence.TypedQuery;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -17,6 +16,18 @@ import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
+
+    @Test
+    public void usarBetween() {
+        String jpql = "Select p from Produto p where p.preco between :precoInicial and :precoFinal";
+        var query = this.entityManager.createQuery(jpql, Produto.class);
+        query.setParameter("precoInicial", new BigDecimal(499));
+        query.setParameter("precoFinal", new BigDecimal(1500));
+
+        var result = query.getResultList();
+
+        assertFalse(result.isEmpty());
+    }
 
     @Test
     public void usarMaiorMenorData() {
