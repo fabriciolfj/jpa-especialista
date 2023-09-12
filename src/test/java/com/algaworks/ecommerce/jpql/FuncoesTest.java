@@ -21,4 +21,16 @@ public class FuncoesTest extends EntityManagerTest {
 
         result.forEach(System.out::println);
     }
+
+    @Test
+    public void agregandoFuncoes() {
+        //sum avg min max
+        final String jpql = "select avg(p.total) from Pedido p";
+        TypedQuery<Number> query = this.entityManager.createQuery(jpql, Number.class);
+
+        var result = query.getSingleResult();
+
+        Assert.assertNotNull(result);
+        System.out.println(result);
+    }
 }
