@@ -15,6 +15,7 @@ public class GroupByTest extends EntityManagerTest {
                 " concat(year(p.dataCriacao), '/', month(p.dataCriacao), '/', day(p.dataCriacao)), " +
                 " concat(c.nome, ': ', sum(ip.precoProduto)) " +
                 " from ItemPedido ip join ip.pedido p join ip.produto pro join pro.categorias c " +
+                " where year(p.dataCriacao) = year(current_date)" +
                 " group by concat(year(p.dataCriacao), '/', month(p.dataCriacao), '/', day(p.dataCriacao)), c.id " +
                 " order by concat(year(p.dataCriacao), '/', month(p.dataCriacao), '/', day(p.dataCriacao)), c.nome ";
 
