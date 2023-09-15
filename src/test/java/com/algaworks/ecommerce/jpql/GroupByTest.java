@@ -10,6 +10,19 @@ import java.util.List;
 public class GroupByTest extends EntityManagerTest {
 
     @Test
+    public void condicionarAgrupamentoComHaving() {
+        String jpql = "select cat.nome, sum(ip.precoProduto) from ItemPedido ip " +
+                " join ip.produto pro join pro.categorias cat " +
+                " group by cat.nome " +
+                " having sum(ip.precoProduto) > 1500";
+
+        var query = this.entityManager.createQuery(jpql, Object[].class);
+        var result = query.getResultList();
+
+        result.forEach(p -> System.out.println(p[0] + " " + p[1]));
+    }
+
+    @Test
     public void totalVendaPorDiaECategoria() {
         String jpql = "select " +
                 " concat(year(p.dataCriacao), '/', month(p.dataCriacao), '/', day(p.dataCriacao)), " +
