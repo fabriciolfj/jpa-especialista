@@ -21,6 +21,36 @@ import static junit.framework.TestCase.assertTrue;
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
 
     @Test
+    public void getProdutosCategoriaDois() {
+        var jpq = "Select p From Pedido p " +
+                " join p.itemPedidos i" +
+                " where i.produto in (select prod from Produto prod " +
+                "  join prod.categorias cat" +
+                " where cat.id = 2)";
+
+        final TypedQuery<Pedido> query = this.entityManager.createQuery(jpq, Pedido.class);
+        final var result = query.getResultList();
+
+        assertFalse(result.isEmpty());
+        result.forEach(s -> System.out.println("Id: " + s.getId()));
+    }
+
+    @Test
+    public void usandoExits() {
+        var jpql = "select p from Produto p" +
+                " where exists " +
+                " (select 1 from ItemPedido it " +
+                "   join it.produto prod " +
+                " where prod = p)";
+
+        final TypedQuery<Produto> query = this.entityManager.createQuery(jpql, Produto.class);
+        final var result = query.getResultList();
+
+        assertFalse(result.isEmpty());
+        result.forEach(p -> System.out.println("Id :" + p.getId() + " , Nome: " + p.getNome()));
+    }
+
+    @Test
     public void usarExpressaoIN() {
         final Cliente cliente1 = this.entityManager.find(Cliente.class, 1);
         final Cliente cliente2 = new Cliente();
