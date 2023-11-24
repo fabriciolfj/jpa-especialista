@@ -15,10 +15,22 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Objects;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class BasicoJPQLTest extends EntityManagerTest {
+
+    @Test
+    public void usarDistinct() {
+        var jpql = "select distinct p from Pedido p" +
+                " join p.itemPedidos i" +
+                " join i.produto prod" +
+                " where prod.id in (1, 2, 3, 4)";
+        final TypedQuery<Pedido> query = this.entityManager.createQuery(jpql, Pedido.class);
+        final var result = query.getResultList();
+
+        assertFalse(result.isEmpty());
+        assertEquals(result.size(), 2);
+    }
 
     @Test
     public void projetarNoDTO() {
@@ -27,7 +39,6 @@ public class BasicoJPQLTest extends EntityManagerTest {
         var result = query.getResultList();
 
         Assert.assertFalse(result.isEmpty());
-
     }
 
     @Test
