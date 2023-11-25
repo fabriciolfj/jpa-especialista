@@ -3,6 +3,7 @@ package com.algaworks.ecommerce.jpql;
 import com.algaworks.ecommerce.EntityManagerTest;
 import com.algaworks.ecommerce.model.Cliente;
 import com.algaworks.ecommerce.model.Pedido;
+import com.algaworks.ecommerce.model.Produto;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,6 +11,17 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class SubqueriesTest extends EntityManagerTest {
+
+    @Test
+    public void pesquisarComAll() {
+        //retorna tb produtos que nao estao no item pedido cuidado
+        final String jpql = "select p from Produto p where p.preco = ALL (select precoProduto from ItemPedido where produto = p)";
+        final TypedQuery<Produto> produtos = this.entityManager.createQuery(jpql, Produto.class);
+        final var result = produtos.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+        result.forEach(s -> System.out.println("Id: " + s.getId()));
+    }
 
     @Test
     public void pesquisaComIn() {
