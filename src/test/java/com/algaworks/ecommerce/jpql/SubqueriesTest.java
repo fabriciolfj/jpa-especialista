@@ -14,6 +14,7 @@ public class SubqueriesTest extends EntityManagerTest {
 
     @Test
     public void pesquisarComAny() {
+        //podemos usar o any ou some
         //todos os produtos que ja foram vendidos uma vez com preço atual, caso queria diferente use  <>
         final String jpql = "select p from Produto p where p.preco = ANY (select precoProduto from ItemPedido where produto = p)";
         final TypedQuery<Produto> produtos = this.entityManager.createQuery(jpql, Produto.class);
