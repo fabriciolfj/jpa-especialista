@@ -13,6 +13,17 @@ import java.util.List;
 public class SubqueriesTest extends EntityManagerTest {
 
     @Test
+    public void pesquisarComAny() {
+        //todos os produtos que ja foram vendidos uma vez com preço atual, caso queria diferente use  <>
+        final String jpql = "select p from Produto p where p.preco = ANY (select precoProduto from ItemPedido where produto = p)";
+        final TypedQuery<Produto> produtos = this.entityManager.createQuery(jpql, Produto.class);
+        final var result = produtos.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+        result.forEach(s -> System.out.println("Id: " + s.getId()));
+    }
+
+    @Test
     public void pesquisarComAll() {
         //retorna tb produtos que nao estao no item pedido cuidado
         final String jpql = "select p from Produto p where p.preco = ALL (select precoProduto from ItemPedido where produto = p)";
