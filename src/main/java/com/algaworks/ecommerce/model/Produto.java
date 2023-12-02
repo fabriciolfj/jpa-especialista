@@ -14,8 +14,12 @@ import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Produto.lista", query = "select p from Produto p"),
+        @NamedQuery(name = "Produto.listaCategoria", query = "select p from Produto p where exists (select 1 from p.categorias c where c.id = :categoria)")
+})
 @Table(name = "produto",
         indexes = { @Index(name = "idx_produto", columnList = "nome")}//,
         //uniqueConstraints = { @UniqueConstraint(name = "unq_produto", columnNames = { "nome "})}
