@@ -1,6 +1,7 @@
 package com.algaworks.ecommerce.criteria;
 
 import com.algaworks.ecommerce.EntityManagerTest;
+import com.algaworks.ecommerce.dto.ProjecaoProduto;
 import com.algaworks.ecommerce.model.Cliente;
 import com.algaworks.ecommerce.model.Pedido;
 import com.algaworks.ecommerce.model.Produto;
@@ -78,5 +79,19 @@ public class BasicoCriteriaTest extends EntityManagerTest {
         final var result = query.getResultList();
 
         Assert.assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void criteriaComDTO() {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<ProjecaoProduto> query = builder.createQuery(ProjecaoProduto.class);
+        final var root = query.from(Produto.class);
+
+        query.select(builder.construct(ProjecaoProduto.class, root.get("id"), root.get("nome")));
+
+        var result = entityManager.createQuery(query);
+
+        Assert.assertFalse(result.getResultList().isEmpty());
+        result.getResultList().forEach(System.out::println);
     }
 }
