@@ -1,13 +1,20 @@
 package com.algaworks.ecommerce.criteria;
 
 import com.algaworks.ecommerce.EntityManagerTest;
-import com.algaworks.ecommerce.model.Cliente;
+import com.algaworks.ecommerce.model.*;
 import org.junit.Assert;
 import org.junit.Test;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
+import java.util.List;
 
 public class ExpressoesCondicionaisCriteriaTest extends EntityManagerTest {
 
@@ -26,5 +33,134 @@ public class ExpressoesCondicionaisCriteriaTest extends EntityManagerTest {
         final var result = typedQuery.getResultList();
 
         Assert.assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void usarIsNull() {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Produto> query = builder.createQuery(Produto.class);
+        final Root<Produto> root = query.from(Produto.class);
+
+        query.select(root)
+                .where(root.get(Produto_.foto).isNull());
+
+        final TypedQuery<Produto> typedQuery = this.entityManager.createQuery(query);
+        final var result = typedQuery.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void usarIsEmpty() {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Produto> query = builder.createQuery(Produto.class);
+        final Root<Produto> root = query.from(Produto.class);
+
+        query.select(root)
+                .where(builder.isEmpty(root.get(Produto_.categorias)));
+
+        final TypedQuery<Produto> typedQuery = this.entityManager.createQuery(query);
+        final var result = typedQuery.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void usarMaiorMenor() {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Produto> query = builder.createQuery(Produto.class);
+        final Root<Produto> root = query.from(Produto.class);
+
+        query.select(root)
+                .where(builder.greaterThanOrEqualTo(root.get(Produto_.PRECO), 799),
+                        builder.lessThanOrEqualTo(root.get(Produto_.PRECO), 3500));
+
+        final TypedQuery<Produto> typedQuery = this.entityManager.createQuery(query);
+        final var result = typedQuery.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void usarDataMaiorEMenor() {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Pedido> query = builder.createQuery(Pedido.class);
+        final Root<Pedido> root = query.from(Pedido.class);
+
+        query.select(root)
+                .where(builder.greaterThan(root.get(Pedido_.DATA_CRIACAO), LocalDateTime.now().minus(2, ChronoUnit.DAYS)),
+                builder.lessThan(root.get(Pedido_.DATA_CRIACAO), LocalDateTime.now().plus(2, ChronoUnit.DAYS)));
+
+        final var type = this.entityManager.createQuery(query);
+        final var result = type.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void usarBetween() {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Pedido> query = builder.createQuery(Pedido.class);
+        final Root<Pedido> root = query.from(Pedido.class);
+
+        query.select(root)
+                .where(builder.between(root.get(Pedido_.TOTAL), new BigDecimal(400), new BigDecimal(3000)));
+
+        final var type = this.entityManager.createQuery(query);
+        final var result = type.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void userDiferente() {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Pedido> query = builder.createQuery(Pedido.class);
+        final Root<Pedido> root = query.from(Pedido.class);
+
+        query.select(root)
+                .where(builder.notEqual(root.get(Pedido_.TOTAL), new BigDecimal(4999)));
+
+        final var type = this.entityManager.createQuery(query);
+        final var result = type.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void usandoOperadores() {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Pedido> query = builder.createQuery(Pedido.class);
+        final Root<Pedido> root = query.from(Pedido.class);
+
+        query.select(root)
+                .where(
+                        builder.or(
+                                builder.equal(root.get(Pedido_.STATUS), StatusPedido.PAGO),
+                                builder.equal(root.get(Pedido_.STATUS), StatusPedido.AGUARDANDO)
+                        ), builder.greaterThan(root.get(Pedido_.TOTAL), new BigDecimal(400)));
+
+
+        final var type = this.entityManager.createQuery(query);
+        final var result = type.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+    }
+
+    @Test
+    public void ordernandoPorNomeCliente() {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Cliente> query = builder.createQuery(Cliente.class);
+        final Root<Cliente> root = query.from(Cliente.class);
+
+        query.select(root)
+                .orderBy(builder.asc(root.get(Cliente_.NOME)));
+
+        final var type = this.entityManager.createQuery(query);
+        final var result = type.getResultList();
+
+        Assert.assertFalse(result.isEmpty());
+
+
     }
 }
