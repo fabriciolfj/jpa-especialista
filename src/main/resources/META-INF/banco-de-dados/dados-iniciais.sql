@@ -10,8 +10,8 @@ insert into cliente_detalhe (cliente_id, sexo, data_nascimento) values (1, 'MASC
 insert into cliente_detalhe (cliente_id, sexo, data_nascimento) values (2, 'MASCULINO', date_sub(sysdate(), interval 30 year));
 
 insert into pedido (id, cliente_id, data_criacao, total, status) values (7, 1, date_sub(sysdate(), interval 5 day), 2998.0, 'AGUARDANDO');
-insert into pedido (id, cliente_id, data_criacao, total, status) values (2, 1, sysdate(), 499.0, 'AGUARDANDO');
-insert into pedido (id, cliente_id, data_criacao, total, status) values (9, 3, sysdate(), 499.0, 'AGUARDANDO');
+insert into pedido (id, cliente_id, data_criacao, total, status) values (2, 1, sysdate(), 499.0, 'PAGO');
+insert into pedido (id, cliente_id, data_criacao, total, status) values (9, 3, sysdate(), 499.0, 'CANCELADO');
 
 insert into pedido (id, cliente_id, data_criacao, total, status) values (71, 2, date_sub(sysdate(), interval 5 day), 2998.0, 'AGUARDANDO');
 insert into pedido (id, cliente_id, data_criacao, total, status) values (255, 2, sysdate(), 178.0, 'AGUARDANDO');
@@ -35,3 +35,9 @@ insert into categoria (nome) values ('Smartphones');
 
 insert into produto_categoria (produto_id, categoria_id) values (1, 6);
 insert into produto_categoria (produto_id, categoria_id) values (3, 2);
+
+
+
+--create table testando (id integer not null auto_increment, primary key (id)) engine=InnoDB;
+
+--create function acima_media_faturamento(valor double) returns boolean reads sql data return valor > (select avg(total) from pedido);

@@ -160,7 +160,32 @@ public class ExpressoesCondicionaisCriteriaTest extends EntityManagerTest {
         final var result = type.getResultList();
 
         Assert.assertFalse(result.isEmpty());
+    }
 
+    @Test
+    public void usandoCaseWhen() {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Object[]> query = builder.createQuery(Object[].class);
+        final Root<Pedido> root = query.from(Pedido.class);
 
+        query.multiselect(
+                root.get(Pedido_.id),
+                /*builder.selectCase(root.get(Pedido_.STATUS))
+                        .when(StatusPedido.PAGO.toString(), "foi pago")
+                        .when(StatusPedido.CANCELADO.toString(), "foi cancelado")
+                        .otherwise(root.get(Pedido_.status))*/
+                builder.selectCase(root.get(Pedido_.pagamento).type().as(String.class))
+                        .when("boleto", "pago com boleto")
+                        .when("cartao", "pago com cartao")
+                        .otherwise("nao identificado")
+
+        );
+
+        final var typeQuery = this.entityManager.createQuery(query);
+        final var result = typeQuery.getResultList();
+
+        result.forEach(s -> {
+            System.out.println(s[0] + " - " + s[1]);
+        });
     }
 }
