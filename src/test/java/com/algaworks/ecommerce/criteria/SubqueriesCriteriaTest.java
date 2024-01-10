@@ -176,4 +176,27 @@ public class SubqueriesCriteriaTest extends EntityManagerTest {
 
         result.forEach(s -> System.out.println("Produto " + s.getId()));
     }
+
+    @Test
+    public void pegarClientesComPedidos() {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Cliente> query = builder.createQuery(Cliente.class);
+        final Root<Cliente> root = query.from(Cliente.class);
+
+        final Subquery<Integer> subquery = query.subquery(Integer.class);
+        final Root<Pedido> subqueryRoot = subquery.from(Pedido.class);
+        final Join<Pedido, Cliente> join = subqueryRoot.join(Pedido_.CLIENTE);
+        subquery.select(subqueryRoot.get(Pedido_.CLIENTE));
+
+        query.select(root)
+                .where(root.get(Cliente_.ID).in(subquery));
+
+        final var type = this.entityManager.createQuery(query);
+        final var result = type.getResultList();
+
+        result.forEach(s ->  System.out.println("Cliente  " + s.getId()));
+
+
+
+    }
 }
