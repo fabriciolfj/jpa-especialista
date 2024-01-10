@@ -14,9 +14,48 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
+import java.util.Arrays;
 import java.util.List;
 
 public class ExpressoesCondicionaisCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void usandoExpressaoDistinct() {
+        final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Pedido> query = builder.createQuery(Pedido.class);
+        final Root<Pedido> root = query.from(Pedido.class);
+        root.join(Pedido_.itemPedidos);
+
+        query.select(root)
+                .distinct(true);
+
+        final var type = entityManager.createQuery(query);
+        final var result = type.getResultList();
+
+        result.forEach(s -> System.out.println("Pedido " + s.getId()));
+    }
+
+    @Test
+    public void usandoExpressaoIn() {
+        final Cliente cliente01 = new Cliente();
+        cliente01.setId(1);
+
+        final Cliente cliente02 = new Cliente();
+        cliente02.setId(2);
+        final var clients = Arrays.asList(cliente01, cliente02);
+
+        final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Pedido> query = builder.createQuery(Pedido.class);
+        final Root<Pedido> root = query.from(Pedido.class);
+
+        query.select(root)
+                .where(root.get(Pedido_.cliente).in(clients));
+
+        final var type = entityManager.createQuery(query);
+        final var result = type.getResultList();
+
+        result.forEach(s -> System.out.println("Pedido " + s.getId()));
+    }
 
     @Test
     public void usandoExpressaoLike() {
