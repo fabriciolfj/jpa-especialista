@@ -57,7 +57,7 @@ public class RelacionamentoOneToOneTest extends EntityManagerTest {
         var pedidoCheck = entityManager.find(Pedido.class, 1);
         var nf = entityManager.find(NotaFiscal.class, nota.getId());
 
-        assertNotNull(pedidoCheck.getNotafiscal());
+        assertNotNull(pedidoCheck.getNotaFiscal());
         assertNotNull(nf.getXml());
         assertTrue(nf.getXml().length > 0);
 

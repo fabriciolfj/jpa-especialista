@@ -14,16 +14,17 @@ public class FlushTest extends EntityManagerTest {
         try {
             entityManager.getTransaction().begin();
 
-            final Pedido pedido = entityManager.find(Pedido.class, 1);
+            final Pedido pedido = entityManager.find(Pedido.class, 7);
             pedido.setStatus(StatusPedido.PAGO);
 
-            /*entityManager.flush();
+            entityManager.flush();
 
-            if (pedido.getPagamento() == null) {
+            /*if (pedido.getPagamento() == null) {
                 throw new RuntimeException();
             }*/
 
-            //para query o jpa precisa sincronizar a memoria com o banco, como se executa-se o flush antes
+            //O flush no JPA serve para sincronizar o estado atual das entidades gerenciadas pelo contexto de persistência com o banco de dados.
+            // para query o jpa precisa sincronizar a memoria com o banco, como se executa-se o flush antes
             final Pedido pedidoPago = entityManager.createQuery("Select p from Pedido p where p.id=1", Pedido.class)
                             .getSingleResult();
 

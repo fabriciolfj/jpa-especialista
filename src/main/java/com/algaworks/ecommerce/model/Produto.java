@@ -2,6 +2,7 @@ package com.algaworks.ecommerce.model;
 
 import com.algaworks.ecommerce.listener.GenericListener;
 import com.algaworks.ecommerce.listener.GerarNotaFiscal;
+import com.algaworks.ecommerce.model.converter.BooleanToSimNaoConverter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -64,5 +65,9 @@ public class Produto extends EntidadeBaseInteger {
 
     @Lob
     private byte[] foto;
+
+    @Column(name = "ativo", length = 3)
+    @Convert(converter = BooleanToSimNaoConverter.class)
+    private Boolean ativo = Boolean.TRUE;
 
 }

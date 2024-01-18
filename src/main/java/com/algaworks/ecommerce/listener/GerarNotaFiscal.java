@@ -13,7 +13,7 @@ public class GerarNotaFiscal {
     @PrePersist
     @PreUpdate
     public void gerar(final Pedido pedido) {
-        if (pedido.isPago() && pedido.getNotafiscal() == null) {
+        if (pedido.isPago() && pedido.getNotaFiscal() == null) {
             service.gerar(pedido);
         }
     }
