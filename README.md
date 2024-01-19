@@ -228,3 +228,6 @@ public class BooleanToSimNaoConverter implements AttributeConverter<Boolean, Str
     private Boolean ativo = Boolean.TRUE;
 
 ```
+
+## entityGraph
+- controlamos dinamicamente se uma consulta retorna um lazy ou eager
